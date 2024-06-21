@@ -6,9 +6,9 @@ require("data.table")
 require("rpart")
 require("rpart.plot")
 
-setwd("~/buckets/b1/" )  # establezco la carpeta donde voy a trabajar
+setwd("/Users/ayelenzucchelli/Master/MineriaDatos") # establezco la carpeta donde voy a trabajar
 # cargo el dataset
-dataset <- fread( "~/datasets/dataset_pequeno.csv")
+dataset <- fread( "./datasets/dataset_pequeno.csv")
 
 dir.create("./exp/", showWarnings = FALSE)
 dir.create("./exp/CN4110/", showWarnings = FALSE)
@@ -16,7 +16,7 @@ dir.create("./exp/CN4110/", showWarnings = FALSE)
 setwd("./exp/CN4110/")
 
 # uso esta semilla para los canaritos
-set.seed(102191)
+set.seed(100069)
 
 
 # agrego los siguientes canaritos
@@ -30,8 +30,8 @@ for( i in 1:154 ) dataset[ , paste0("canarito", i ) :=  runif( nrow(dataset)) ]
                model = TRUE,
                xval = 0,
                cp = -0.5,
-               minsplit =  600,
-               minbucket = 150,
+               minsplit =  1000,
+               minbucket = 450,
                maxdepth = 6 )
 
 
