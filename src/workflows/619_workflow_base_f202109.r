@@ -325,9 +325,9 @@ HT_tuning_base <- function( pinputexps, bypass=FALSE)
     is_unbalance = FALSE, #
     scale_pos_weight = c(1, 100), # scale_pos_weight > 0.0
 
-    drop_rate = 0.1, # 0.0 < neg_bagging_fraction <= 1.0
-    max_drop = 50, # <=0 means no limit
-    skip_drop = 0.5, # 0.0 <= skip_drop <= 1.0
+    drop_rate = c(0.01,0.5), # 0.0 < neg_bagging_fraction <= 1.0
+    max_drop = c(-1L,100L, "integer"), # <=0 means no limit
+    skip_drop = c(0,1), # 0.0 <= skip_drop <= 1.0
 
     extra_trees = FALSE,
     # Parte variable
