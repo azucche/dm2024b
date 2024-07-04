@@ -301,44 +301,46 @@ HT_tuning_base <- function( pinputexps, bypass=FALSE)
   # Hiperparametros  del LightGBM
   #  los que tienen un solo valor son los que van fijos
   #  los que tienen un vector,  son los que participan de la Bayesian Optimization
-  
+
   param_local$lgb_param <- list(
-    boosting = "gbdt", #c("gbdt","dart"), # puede ir  dart  , ni pruebe random_forest
-    objective = "binary", # ESTE NO
-    metric = "custom", # ESTE NO
-    first_metric_only = TRUE, # ESTE NO
-    boost_from_average = TRUE, # ESTE NO
-    feature_pre_filter = FALSE, # ESTE NO
-    force_row_wise = TRUE, # para reducir warnings ESTE NO
-    verbosity = -100, # ESTE NO
-    max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo ESTE NO
-    min_gain_to_split = c( 0L, 1000L, "integer" ), # min_gain_to_split >= 0.0
-    min_sum_hessian_in_leaf = c(0,10), #  min_sum_hessian_in_leaf >= 0.0
-    lambda_l1 = 1, # lambda_l1 >= 0.0
-    lambda_l2 = c(2,1000), # lambda_l2 >= 0.0
-    max_bin = 31L, # lo debo dejar fijo, no participa de la BO ESTE NO
-    num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds ESTE NO
-    
-    bagging_fraction = c(0.35,0.8), # 0.0 < bagging_fraction <= 1.0
-    pos_bagging_fraction = c(0.4,0.8), # 0.0 < pos_bagging_fraction <= 1.0
-    neg_bagging_fraction = c(0.3,0.8), # 0.0 < neg_bagging_fraction <= 1.0
-    is_unbalance = FALSE, 
-    scale_pos_weight = c(1.0, 100.0), # scale_pos_weight > 0.0
-    
-    drop_rate = c(0.01,0.5), # 0.0 < neg_bagging_fraction <= 1.0
-    max_drop = c(-1L,100L, "integer"), # <=0 means no limit
-    skip_drop = c(0,1), # 0.0 <= skip_drop <= 1.0
-    
-    extra_trees = TRUE,    # Parte variable se hace a mano
-    learning_rate = c( 0.001, 0.5 ),
+    boosting = "gbdt", # puede ir  dart  , ni pruebe random_forest
+    objective = "binary",
+    metric = "custom",
+    first_metric_only = TRUE,
+    boost_from_average = TRUE,
+    feature_pre_filter = FALSE,
+    force_row_wise = TRUE, # para reducir warnings
+    verbosity = -100,
+    max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
+    min_gain_to_split = 0.0, # min_gain_to_split >= 0.0
+    min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
+    lambda_l1 = 0.0, # lambda_l1 >= 0.0
+    lambda_l2 = 0.0, # lambda_l2 >= 0.0
+    max_bin = 31L, # lo debo dejar fijo, no participa de la BO
+    num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds
+
+    bagging_fraction = 1.0, # 0.0 < bagging_fraction <= 1.0
+    pos_bagging_fraction = 1.0, # 0.0 < pos_bagging_fraction <= 1.0
+    neg_bagging_fraction = 1.0, # 0.0 < neg_bagging_fraction <= 1.0
+    is_unbalance = FALSE, #
+    scale_pos_weight = 1.0, # scale_pos_weight > 0.0
+
+    drop_rate = 0.1, # 0.0 < neg_bagging_fraction <= 1.0
+    max_drop = 50, # <=0 means no limit
+    skip_drop = 0.5, # 0.0 <= skip_drop <= 1.0
+
+    extra_trees = FALSE,
+    # Parte variable
+    learning_rate = c( 0.02, 0.8 ),
     feature_fraction = c( 0.5, 0.9 ),
-    num_leaves = c( 8L, 1048L,  "integer" ),
-    min_data_in_leaf = c( 300L, 10000L,"integer")
+    num_leaves = c( 8L, 2048L,  "integer" ),
+    min_data_in_leaf = c( 100L, 10000L, "integer" )
   )
-  
+
+
   # una Bayesian humilde, pero no descabellada
-  param_local$bo_iteraciones <- 200 # iteraciones de la Optimizacion Bayesiana
-  
+  param_local$bo_iteraciones <- 60 # iteraciones de la Optimizacion Bayesiana
+
   return( exp_correr_script( param_local ) ) # linea fija
 }
 #------------------------------------------------------------------------------
