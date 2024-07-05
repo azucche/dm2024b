@@ -312,28 +312,28 @@ HT_tuning_base <- function( pinputexps, bypass=FALSE)
     force_row_wise = TRUE, # para reducir warnings ESTE NO
     verbosity = -100, # ESTE NO
     max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo ESTE NO
-    min_gain_to_split = c( 0L, 1000L, "integer" ), # min_gain_to_split >= 0.0
-    min_sum_hessian_in_leaf = c(0,10), #  min_sum_hessian_in_leaf >= 0.0
-    lambda_l1 = 1, # lambda_l1 >= 0.0
-    lambda_l2 = c(2,1000), # lambda_l2 >= 0.0
+    min_gain_to_split = c( 0L, 120L, "integer" ), # min_gain_to_split >= 0.0
+    min_sum_hessian_in_leaf = c(0.8,25), #  min_sum_hessian_in_leaf >= 0.0
+    lambda_l1 = c(20,420), # lambda_l1 >= 0.0
+    lambda_l2 = c(65,800), # lambda_l2 >= 0.0
     max_bin = 31L, # lo debo dejar fijo, no participa de la BO ESTE NO
     num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds ESTE NO
     
-    bagging_fraction = c(0.35,0.8), # 0.0 < bagging_fraction <= 1.0
-    pos_bagging_fraction = c(0.4,0.8), # 0.0 < pos_bagging_fraction <= 1.0
-    neg_bagging_fraction = c(0.3,0.8), # 0.0 < neg_bagging_fraction <= 1.0
+    bagging_fraction = c(0.4,0.95), # 0.0 < bagging_fraction <= 1.0
+    pos_bagging_fraction = c(0.5,0.9), # 0.0 < pos_bagging_fraction <= 1.0
+    neg_bagging_fraction = c(0.4,0.9), # 0.0 < neg_bagging_fraction <= 1.0
     is_unbalance = FALSE, 
-    scale_pos_weight = c(1.0, 100.0), # scale_pos_weight > 0.0
+    scale_pos_weight = c(20.0, 99.0), # scale_pos_weight > 0.0
     
-    drop_rate = c(0.01,0.5), # 0.0 < neg_bagging_fraction <= 1.0
-    max_drop = c(-1L,100L, "integer"), # <=0 means no limit
-    skip_drop = c(0,1), # 0.0 <= skip_drop <= 1.0
+    drop_rate = c(0.09,0.5), # 0.0 < neg_bagging_fraction <= 1.0
+    max_drop = c(10L,110L, "integer"), # <=0 means no limit
+    skip_drop = c(0.01,0.9), # 0.0 <= skip_drop <= 1.0
     
     extra_trees = TRUE,    # Parte variable se hace a mano
-    learning_rate = c( 0.001, 0.5 ),
-    feature_fraction = c( 0.5, 0.9 ),
-    num_leaves = c( 8L, 1048L,  "integer" ),
-    min_data_in_leaf = c( 300L, 10000L,"integer")
+    learning_rate = c( 0.01, 0.3 ),
+    feature_fraction = c( 0.5, 0.99 ),
+    num_leaves = c( 300L, 2950L,  "integer" ),
+    min_data_in_leaf = c( 80L, 13000L,"integer")
   )
   
   # una Bayesian humilde, pero no descabellada
