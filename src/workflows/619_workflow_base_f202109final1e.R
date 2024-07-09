@@ -140,16 +140,16 @@ FEhist_base <- function( pinputexps)
   param_local$Tendencias1$run <- TRUE  # FALSE, no corre nada de lo que sigue
   param_local$Tendencias1$ventana <- 6
   param_local$Tendencias1$tendencia <- TRUE
-  param_local$Tendencias1$minimo <- FALSE
-  param_local$Tendencias1$maximo <- FALSE
-  param_local$Tendencias1$promedio <- FALSE
+  param_local$Tendencias1$minimo <- TRUE
+  param_local$Tendencias1$maximo <- TRUE
+  param_local$Tendencias1$promedio <- TRUE
   param_local$Tendencias1$ratioavg <- FALSE
   param_local$Tendencias1$ratiomax <- FALSE
   
   # no me engraso las manos con las tendencias de segundo orden
-  param_local$Tendencias2$run <- TRUE
+  param_local$Tendencias2$run <- FALSE
   param_local$Tendencias2$ventana <- 9
-  param_local$Tendencias2$tendencia <- TRUE
+  param_local$Tendencias2$tendencia <- FALSE
   param_local$Tendencias2$minimo <- FALSE
   param_local$Tendencias2$maximo <- FALSE
   param_local$Tendencias2$promedio <- FALSE
@@ -386,7 +386,7 @@ wf_sept <- function( pnombrewf )
   param_local <- exp_wf_init( pnombrewf ) # linea fija
   
   DT_incorporar_dataset_competencia2024()
-  CA_catastrophe_base( metodo="MachineLearning")
+  CA_catastrophe_base( metodo="ninguno")
   FEintra_base()
   DR_drifting_base(metodo="drift_uva")
   FEhist_base()
