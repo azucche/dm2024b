@@ -232,7 +232,7 @@ CN_canaritos_asesinos_base <- function( pinputexps, ratio, desvio)
 
 
   param_local$meta$script <- "/src/wf-etapas/z561_CN_canaritos_asesinos.r"
-
+  
   # Parametros de un LightGBM que se genera para estimar la column importance
   param_local$train$clase01_valor1 <- c( "BAJA+2", "BAJA+1")
   param_local$train$positivos <- c( "BAJA+2")
@@ -241,14 +241,14 @@ CN_canaritos_asesinos_base <- function( pinputexps, ratio, desvio)
   param_local$train$undersampling <- 0.1
   param_local$train$gan1 <- 117000
   param_local$train$gan0 <-  -3000
-
-
+  
+  
   # ratio varia de 0.0 a 2.0
   # desvio varia de -4.0 a 4.0
   param_local$CanaritosAsesinos$ratio <- ratio
   # desvios estandar de la media, para el cutoff
   param_local$CanaritosAsesinos$desvios <- desvio
-
+  
   return( exp_correr_script( param_local ) ) # linea fija
 }
 #------------------------------------------------------------------------------
@@ -261,19 +261,19 @@ TS_strategy_base9 <- function( pinputexps )
   if( -1 == (param_local <- exp_init())$resultado ) return( 0 )# linea fija
 
   param_local$meta$script <- "/src/wf-etapas/z571_TS_training_strategy.r"
-
-
+  
+  
   param_local$future <- c(202109)
   param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011, 202010)
   param_local$train$training <- c(202102, 202101, 202012, 202011, 202010, 202009, 202008, 202007, 202006, 202005)
   param_local$train$validation <- c(202104)
   param_local$train$testing <- c(202107, 202106, 202105)
-
+  
   # Atencion  0.2  de  undersampling de la clase mayoritaria,  los CONTINUA
   # 1.0 significa NO undersampling
   param_local$train$undersampling <- 0.2
   param_local$train$clase_minoritaria <- c( "BAJA+1", "BAJA+2")
-
+  
   return( exp_correr_script( param_local ) ) # linea fija
 }
 #------------------------------------------------------------------------------
@@ -287,20 +287,20 @@ HT_tuning_base <- function( pinputexps, bypass=FALSE)
   if( -1 == (param_local <- exp_init(pbypass=bypass))$resultado ) return( 0 ) # linea fija bypass
 
   param_local$meta$script <- "/src/wf-etapas/z581_HT_lightgbm.r"
-
+  
   # En caso que se haga cross validation, se usa esta cantidad de folds
   param_local$lgb_crossvalidation_folds <- 5
-
+  
   param_local$train$clase01_valor1 <- c( "BAJA+2", "BAJA+1")
   param_local$train$positivos <- c( "BAJA+2")
   param_local$train$gan1 <- 117000
   param_local$train$gan0 <-  -3000
   param_local$train$meseta <- 2001
-
+  
   # Hiperparametros  del LightGBM
   #  los que tienen un solo valor son los que van fijos
   #  los que tienen un vector,  son los que participan de la Bayesian Optimization
-
+  
   param_local$lgb_param <- list(
     boosting = "gbdt", # puede ir  dart  , ni pruebe random_forest
     objective = "binary",
@@ -339,7 +339,7 @@ HT_tuning_base <- function( pinputexps, bypass=FALSE)
   
   # una Bayesian humilde, pero no descabellada
   param_local$bo_iteraciones <- 120 # iteraciones de la Optimizacion Bayesiana
-
+  
   return( exp_correr_script( param_local ) ) # linea fija
 }
 #------------------------------------------------------------------------------
@@ -388,15 +388,15 @@ ZZ_final_semillerio_base9 <- function( pinputexps )
 wf_sept_semillerio <- function( pnombrewf )
 {
   param_local <- exp_wf_init( pnombrewf ) # linea fija
-
+  
   DT_incorporar_dataset_competencia2024()
   CA_catastrophe_base( metodo="Ninguno")
   FEintra_base()
   DR_drifting_base(metodo="drift_uva")
   FEhist_base()
   FErf_attributes_base()
-  CN_canaritos_asesinos_base(ratio=1.5, desvio=1.5)
-
+  CN_canaritos_asesinos_base(ratio=2, desvio=0.75)
+  
   ts9 <- TS_strategy_base9()
   ht <- HT_tuning_base()
   
